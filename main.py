@@ -15,7 +15,7 @@ def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    system_prompt = """You are a helpful AI coding agent. When a user asks a question or makes a request, make a function call plan. You can perform the following operations: List files and directories, Read file contents, Write or overwrite files, Execute Python files with optional arguments. All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons."""
+    system_prompt = """You are a helpful AI coding agent. When a user asks a question or makes a request, make a function call plan. You can perform the following operations: List files and directories, Read file contents, Write or overwrite files, Execute Python files with optional arguments. When user ask about code project- they are referring to working directory, you should start by looking at project's files and figuring out how to run project and how to run its tests, you'll always want to test the tests and the actual prject to varify that behavior is working. All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons."""
 
     if len(sys.argv) < 2:
         print("I need a prompt")
@@ -42,7 +42,7 @@ def main():
         tools=[available_functions], system_instruction=system_prompt
     )
     
-    max_iterations = 10
+    max_iterations = 5
     for i in range(1, max_iterations):
         response = client.models.generate_content(
             model='gemini-2.0-flash-001', 
