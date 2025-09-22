@@ -41,31 +41,35 @@ def main():
     config=types.GenerateContentConfig(
         tools=[available_functions], system_instruction=system_prompt
     )
-
-    response = client.models.generate_content(
-        model='gemini-2.0-flash-001', 
-        contents=messages,
-        config = config,
-    )
     
-    if response is None or response.usage_metadata is None:
-        print("Response is malformed or missing usage metadata.")
-        return
-    if verbose_flag:
-        print(f"User Prompt: {prompt}")
-        print(f"Prompt Tokens: {response.usage_metadata.prompt_token_count}")
-        print(f"Response Tokens: {response.usage_metadata.candidates_token_count}")
+    max_iterations = 10
+    for i in range(1, max_iterations):
+        response = client.models.generate_content(
+            model='gemini-2.0-flash-001', 
+            contents=messages,
+            config = config,
+        )
+        
+        if response is None or response.usage_metadata is None:
+            print("Response is malformed or missing usage metadata.")
+            return
+        if verbose_flag:
+            print(f"User Prompt: {prompt}")
+            print(f"Prompt Tokens: {response.usage_metadata.prompt_token_count}")
+            print(f"Response Tokens: {response.usage_metadata.candidates_token_count}")
+            
+        if response.candidates:
+            for candidate in response.candidates:
+                if candidate is None or candidate.content is None:
+                    continue
+                messages.append(candidate.content)
 
-    if response.function_calls:
-        for function_call_part in response.function_calls:
-            result = call_function(function_call_part, verbose_flag)
-            print(result)
-    else:
-        print(response.text)
+        if response.function_calls:
+            for function_call_part in response.function_calls:
+                result = call_function(function_call_part, verbose_flag)
+                messages.append(result)
+        else:
+            print(response.text)
+            return
 
 main()
-
-# 32:00 Mins Completed Date 17 September 2025
-# 1:00:00 Mins Completed Date 19 September 2025
-# 1:30:00 Mins Completed Date 20 September 2025
-#1:40:00 Mins Completed Date 21 September 2025
