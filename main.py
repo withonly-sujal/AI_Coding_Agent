@@ -7,6 +7,7 @@ from functions.get_files_info import schema_get_files_info
 from functions.get_file_content import schema_get_file_content
 from functions.write_file import schema_write_file
 from functions.run_python_file import schema_run_python_file
+from call_function import call_function
 
 def main():
 
@@ -14,7 +15,7 @@ def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    system_prompt = """You are a helpful AI coding agent. When a user asks a question or makes a request, make a function call plan. You can perform the following operations: List files and directories, Read file contents, Execute Python files with optional arguments, Write or overwrite files. All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons."""
+    system_prompt = """You are a helpful AI coding agent. When a user asks a question or makes a request, make a function call plan. You can perform the following operations: List files and directories, Read file contents, Write or overwrite files, Execute Python files with optional arguments. All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons."""
 
     if len(sys.argv) < 2:
         print("I need a prompt")
@@ -57,7 +58,8 @@ def main():
 
     if response.function_calls:
         for function_call_part in response.function_calls:
-            print(f"Calling function: {function_call_part.name}({function_call_part.args})") # Check again 1:30:00 onwards
+            result = call_function(function_call_part, verbose_flag)
+            print(result)
     else:
         print(response.text)
 

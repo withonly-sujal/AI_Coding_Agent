@@ -42,6 +42,9 @@ schema_run_python_file = types.FunctionDeclaration(
             "args": types.Schema(
                 type=types.Type.ARRAY,
                 description="An optional array of strings to be used as the CLI args for the Python File.",
+                items=types.Schema(
+                    type=types.Type.STRING,
+                )
             ),
         },
     ),
