@@ -1,4 +1,4 @@
-# 🤖 The Gemini AI Coding Agent: Low-Latency File & Execution Manager
+# 🤖AI Coding Agent:
 
 **An intelligent command-line utility for developers that enables seamless Python code creation, editing, execution, and file management using natural language, powered by the Gemini API's advanced function calling.**
 
@@ -42,6 +42,7 @@ The application is structured into key components that manage the interaction lo
 
 1.  **Python 3.8+**
 2.  **Gemini API Key:** Obtain a key from Google AI Studio.
+3.  **Google-genai:** To use function calling and Gemini API
 
 ### Steps
 
@@ -80,4 +81,4 @@ The agent operates as a persistent, interactive chat session in your terminal, a
 Run this command in your terminal:
 
 ```bash
-python agent.py
+py agent.py
