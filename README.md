@@ -82,5 +82,9 @@ Run this command in your terminal:
 
 ```bash
 py agent.py
+```
 
-**Thanks to freecodecamp and Boot.dev for providing with the knowledge and guide for this project**
+# Credits and Thanks
+**Thanks to @freecodecamp and @boot.dev for providing the knowledge and guidance for this project**
+
+
